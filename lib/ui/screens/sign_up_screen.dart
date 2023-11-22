@@ -4,6 +4,8 @@ import 'package:tasks/ui/widgets/custom_button.dart';
 import 'package:tasks/ui/widgets/custom_heading.dart';
 import 'package:tasks/ui/widgets/custom_textfield.dart';
 
+import '../widgets/custom_snackbar.dart';
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 
@@ -17,6 +19,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _repassController = TextEditingController();
 
+  void _registerUser() {
+    String name = _nameController.text.trim();
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+    String repass = _repassController.text.trim();
+
+    if (name.isEmpty || email.isEmpty || password.isEmpty || repass.isEmpty) {
+      const CustomSnackbar(
+        snackbarText: 'Please enter all the fields',
+        snackbarTextColor: Colors.red,
+      ).showSnackBar(context);
+    }
+
+    if (!RegExp(r'[a-zA-Z]').hasMatch(name)) {
+      const CustomSnackbar(
+        snackbarText: 'Name should contain letters',
+        snackbarTextColor: Colors.red,
+      ).showSnackBar(context);
+    }
+
+    if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(email)) {
+      const CustomSnackbar(
+        snackbarText: 'Please enter a valid email address',
+        snackbarTextColor: Colors.red,
+      ).showSnackBar(context);
+    }
+
+    if (password != repass) {
+      const CustomSnackbar(
+              snackbarText: 'Passwords do not match',
+              snackbarTextColor: Colors.red)
+          .showSnackBar(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,23 +83,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  CustomTextfield(labelName: 'Name', textController: _nameController),
+                  CustomTextfield(
+                      labelName: 'Name', textController: _nameController),
                   const SizedBox(
                     height: 15,
                   ),
-                  CustomTextfield(labelName: 'Email', textController: _emailController),
+                  CustomTextfield(
+                      labelName: 'Email', textController: _emailController),
                   const SizedBox(
                     height: 15,
                   ),
-                  CustomTextfield(labelName: 'Password', textController: _passwordController),
+                  CustomTextfield(
+                      labelName: 'Password',
+                      textController: _passwordController),
                   const SizedBox(
                     height: 15,
                   ),
-                  CustomTextfield(labelName: 'Confirm Password', textController: _repassController),
+                  CustomTextfield(
+                      labelName: 'Confirm Password',
+                      textController: _repassController),
                   const SizedBox(
                     height: 20,
                   ),
-                  const CustomButton(buttonText: 'Create account'),
+                  CustomButton(
+                      buttonText: 'Create account', onPressed: _registerUser),
                   const SizedBox(
                     height: 15,
                   ),
@@ -83,7 +127,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen(),));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const LoginScreen(),
+                              ));
                         },
                         child: const Text(
                           'Log In ',

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 class CustomTextfield extends StatefulWidget {
-  const CustomTextfield({super.key, required this.labelName, required this.textController});
+  const CustomTextfield({super.key, required this.labelName, required this.textController, this.validator});
 
   final String labelName;
   final TextEditingController textController;
+  final String? Function(String?)? validator;
 
   @override
   State<CustomTextfield> createState() => _CustomTextfieldState();
@@ -15,7 +16,7 @@ class _CustomTextfieldState extends State<CustomTextfield> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 56,
-      child: TextField(
+      child: TextFormField(
         controller: widget.textController ,
         textAlign: TextAlign.center,
         style: const TextStyle(
@@ -46,6 +47,7 @@ class _CustomTextfieldState extends State<CustomTextfield> {
             ),
           ),
         ),
+        validator: widget.validator
       ),
     );
   }

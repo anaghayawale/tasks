@@ -4,6 +4,8 @@ import 'package:tasks/ui/widgets/custom_button.dart';
 import 'package:tasks/ui/widgets/custom_heading.dart';
 import 'package:tasks/ui/widgets/custom_textfield.dart';
 
+import '../widgets/custom_snackbar.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -14,6 +16,26 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  void _loginUser() async {
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      const CustomSnackbar(
+        snackbarText: 'Please enter all the fields',
+        snackbarTextColor: Colors.red,
+      ).showSnackBar(context);
+    }
+
+    if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(email)) {
+      const CustomSnackbar(
+        snackbarText: 'Please enter a valid email address',
+        snackbarTextColor: Colors.red,
+      ).showSnackBar(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +66,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  CustomTextfield(labelName: 'Email', textController: _emailController),
+                  CustomTextfield(
+                      labelName: 'Email', textController: _emailController),
                   const SizedBox(height: 15),
-                  CustomTextfield(labelName: 'Password', textController: _passwordController),
+                  CustomTextfield(
+                      labelName: 'Password',
+                      textController: _passwordController),
                   const SizedBox(height: 20),
-                  const CustomButton(buttonText: 'Sign In'),
+                  CustomButton(
+                    buttonText: 'Sign In',
+                    onPressed: _loginUser,
+                  ),
                   const SizedBox(
                     height: 15,
                   ),
@@ -68,7 +96,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUpScreen(),));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SignUpScreen(),
+                              ));
                         },
                         child: const Text(
                           'Sign Up',

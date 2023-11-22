@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatefulWidget {
-  const CustomButton({super.key, required this.buttonText});
+  const CustomButton({super.key, required this.buttonText, required this.onPressed});
 
   final String buttonText;
+  final VoidCallback onPressed;
 
   @override
   State<CustomButton> createState() => _CustomButtonState();
@@ -18,7 +19,7 @@ class _CustomButtonState extends State<CustomButton> {
         width: 329,
         height: 56,
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: widget.onPressed,
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF9F7BFF),
           ),
