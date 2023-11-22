@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tasks/ui/screens/login_screen.dart';
+import 'package:tasks/ui/widgets/custom_button.dart';
+import 'package:tasks/ui/widgets/custom_heading.dart';
+import 'package:tasks/ui/widgets/custom_textfield.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -9,6 +12,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _repassController = TextEditingController();
@@ -26,184 +30,39 @@ class _SignUpScreenState extends State<SignUpScreen> {
               padding: const EdgeInsets.only(top: 0),
               child: Image.asset(
                 "assets/images/vector-2.png",
-                width: 428,
+                width: 413,
                 height: 457,
               ),
             ),
-            const SizedBox(
-              height: 18,
-            ),
+            // const SizedBox(
+            //   height: 18,
+            // ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 50),
+              padding: const EdgeInsets.symmetric(horizontal: 40),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Sign up',
-                    style: TextStyle(
-                      color: Color(0xFF755DC1),
-                      fontSize: 27,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+                  const CustomHeading(text: 'Sign Up'),
                   const SizedBox(
                     height: 20,
                   ),
-                  SizedBox(
-                    height: 56,
-                    child: TextField(
-                      controller: _emailController,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        color: Color(0xFF393939),
-                        fontSize: 13,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w400,
-                      ),
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
-                        labelStyle: TextStyle(
-                          color: Color(0xFF755DC1),
-                          fontSize: 15,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Color(0xFF837E93),
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Color(0xFF9F7BFF),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  CustomTextfield(labelName: 'Name', textController: _nameController),
                   const SizedBox(
-                    height: 17,
+                    height: 15,
                   ),
-                  SizedBox(
-                    height: 56,
-                    child: TextField(
-                          controller: _passwordController,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: Color(0xFF393939),
-                            fontSize: 13,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                          ),
-                          decoration: const InputDecoration(
-                            labelText: 'Password',
-                            hintText: 'Create Password',
-                            hintStyle: TextStyle(
-                              color: Color(0xFF837E93),
-                              fontSize: 10,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w400,
-                            ),
-                            labelStyle: TextStyle(
-                              color: Color(0xFF755DC1),
-                              fontSize: 15,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 1,
-                                color: Color(0xFF837E93),
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 1,
-                                color: Color(0xFF9F7BFF),
-                              ),
-                            ),
-                          ),
-                        ),
-                  ),
+                  CustomTextfield(labelName: 'Email', textController: _emailController),
                   const SizedBox(
-                    height: 17,
+                    height: 15,
                   ),
-                  SizedBox(
-                    height: 56,
-                    child: TextField(
-                          controller: _repassController,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: Color(0xFF393939),
-                            fontSize: 13,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                          ),
-                          decoration: const InputDecoration(
-                            labelText: 'Confirm Password',
-                            hintText: 'Confirm Password',
-                            hintStyle: TextStyle(
-                              color: Color(0xFF837E93),
-                              fontSize: 10,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w400,
-                            ),
-                            labelStyle: TextStyle(
-                              color: Color(0xFF755DC1),
-                              fontSize: 15,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 1,
-                                color: Color(0xFF837E93),
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 1,
-                                color: Color(0xFF9F7BFF),
-                              ),
-                            ),
-                          ),
-                        ),
+                  CustomTextfield(labelName: 'Password', textController: _passwordController),
+                  const SizedBox(
+                    height: 15,
                   ),
+                  CustomTextfield(labelName: 'Confirm Password', textController: _repassController),
                   const SizedBox(
                     height: 20,
                   ),
-                  ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    child: SizedBox(
-                      width: 329,
-                      height: 56,
-                      child: ElevatedButton(
-                        onPressed: () {
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF9F7BFF),
-                        ),
-                        child: const Text(
-                          'Create account',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  const CustomButton(buttonText: 'Create account'),
                   const SizedBox(
                     height: 15,
                   ),
@@ -238,6 +97,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ],
                   ),
+                  const SizedBox(
+                    height: 15,
+                  )
                 ],
               ),
             ),
