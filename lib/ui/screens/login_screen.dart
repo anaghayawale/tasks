@@ -1,8 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:tasks/ui/screens/sign_up_screen.dart';
 import 'package:tasks/ui/widgets/custom_button.dart';
 import 'package:tasks/ui/widgets/custom_heading.dart';
 import 'package:tasks/ui/widgets/custom_textfield.dart';
+import 'package:http/http.dart' as http;
 
 import '../widgets/custom_snackbar.dart';
 
@@ -35,6 +37,75 @@ class _LoginScreenState extends State<LoginScreen> {
         snackbarTextColor: Colors.red,
       ).showSnackBar(context);
     }
+
+    if (password.length < 6) {
+      const CustomSnackbar(
+        snackbarText: 'Password should be at least 6 characters long',
+        snackbarTextColor: Colors.red,
+      ).showSnackBar(context);
+    }
+
+    final String apiUrl = 'http://taskmasterapp.vercel.app/api/login';
+    final Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Cookie':
+          'taskmastertoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MTk4MDQ1MzMzZDZhYjkxZDBjZDYyZSIsImlhdCI6MTcwMDgwNDYzMX0.QojNGPR90sVxIibd93q8B3wafVVnKpI9N8qZZu9PeFI'
+    };
+    final Map<String, dynamic> requestBody = {
+      "email": email,
+      "password": password,
+    };
+
+    try {
+      final http.Response response = await http.post(
+        Uri.parse(apiUrl),
+        headers: headers,
+        body: json.encode(requestBody),
+      );
+
+      if (response.statusCode == 308 &&
+          response.headers.containsKey('location')) {
+        // Successful login
+        var redirectUrl = response.headers['location'];
+        // print('Redirect URL: $redirectUrl');
+
+        // Make another request to the redirect URL
+        var redirectResponse = await http.post(Uri.parse(redirectUrl!),
+            body: jsonEncode({
+              "email": email,
+              "password": password,
+            }));
+
+        // Process the response from the redirect
+        print('Redirect Response status: ${redirectResponse.statusCode}');
+        print('Redirect Response body: ${redirectResponse.body}');
+
+        // Parse the response body as JSON
+        var responseBody = jsonDecode(redirectResponse.body);
+
+        // Get the message from the JSON response
+        var message = responseBody['message'];
+        var success = responseBody['success'];
+        
+        // Show the message in a Snackbar
+        if (success == true) {
+          // ignore: use_build_context_synchronously
+          print('Login successful: $message');
+        } else if (success == false){
+          var error = responseBody['error'];
+          // ignore: use_build_context_synchronously
+          print('Login failed: $error');
+        }
+    }} catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  void showMessage(BuildContext context, String message, Color snackbarColor) {
+    CustomSnackbar(
+      snackbarText: message,
+      snackbarTextColor: snackbarColor,
+    ).showSnackBar(context);
   }
 
   @override
@@ -96,11 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const SignUpScreen(),
-                              ));
+                          Navigator.pushNamed(context, '/signUp');
                         },
                         child: const Text(
                           'Sign Up',

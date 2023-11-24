@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:tasks/ui/screens/login_screen.dart';
 import 'package:tasks/ui/widgets/custom_button.dart';
 import 'package:tasks/ui/widgets/custom_heading.dart';
 import 'package:tasks/ui/widgets/custom_textfield.dart';
@@ -64,8 +63,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ).showSnackBar(context);
       return;
     }
-
-    
 
     BuildContext currentContext = context;
 
@@ -215,11 +212,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const LoginScreen(),
-                              ));
+                          Navigator.pushNamed(context, '/');
                         },
                         child: const Text(
                           'Log In ',
