@@ -17,6 +17,7 @@ class _CustomTextfieldState extends State<CustomTextfield> {
     return SizedBox(
       height: 56,
       child: TextFormField(
+        obscureText: widget.labelName == 'Password' ? true : false,
         controller: widget.textController ,
         textAlign: TextAlign.center,
         style: const TextStyle(

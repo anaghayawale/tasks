@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/auth_provider.dart';
 
 class CustomButton extends StatefulWidget {
-  const CustomButton({super.key, required this.buttonText, required this.onPressed});
+  const CustomButton(
+      {super.key, required this.buttonText, required this.onPressed});
 
   final String buttonText;
   final VoidCallback onPressed;
@@ -13,6 +17,7 @@ class CustomButton extends StatefulWidget {
 class _CustomButtonState extends State<CustomButton> {
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
     return ClipRRect(
       borderRadius: const BorderRadius.all(Radius.circular(10)),
       child: SizedBox(
@@ -23,15 +28,19 @@ class _CustomButtonState extends State<CustomButton> {
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF9F7BFF),
           ),
-          child: Text(
-            widget.buttonText,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 15,
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w500,
-            ),
-          ),
+          child: authProvider.loading
+              ? const CircularProgressIndicator(
+                  color: Colors.white,
+                )
+              : Text(
+                  widget.buttonText,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
         ),
       ),
     );
